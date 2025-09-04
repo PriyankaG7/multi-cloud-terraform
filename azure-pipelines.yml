@@ -108,3 +108,4 @@ stages:
           targetPath: '$(Pipeline.Workspace)/terraform-iac/terraform-outputs.json'
           artifact: 'TerraformOutputs'
           publishLocation: 'pipeline'
+          
