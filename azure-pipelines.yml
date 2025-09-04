@@ -34,10 +34,10 @@ stages:
         inputs:
           terraformVersion: '$(TF_VERSION)'
 
-      # Azure Login (service connection required)
+      # Azure Login using service connection 'azure-spn'
       - task: AzureCLI@2
         inputs:
-          azureSubscription: "AzureServiceConnection"
+          azureSubscription: "azure-spn"
           scriptType: bash
           scriptLocation: inlineScript
           inlineScript: |
@@ -62,7 +62,7 @@ stages:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
           AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
 
-      # Publish Terraform code as artifact (with plan)
+      # Publish Terraform code + plan as artifact
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(TF_WORKING_DIR)'
@@ -95,10 +95,10 @@ stages:
         inputs:
           terraformVersion: '$(TF_VERSION)'
 
-      # Azure Login (service connection required)
+      # Azure Login using service connection 'azure-spn'
       - task: AzureCLI@2
         inputs:
-          azureSubscription: "AzureServiceConnection"
+          azureSubscription: "azure-spn"
           scriptType: bash
           scriptLocation: inlineScript
           inlineScript: |
