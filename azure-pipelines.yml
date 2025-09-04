@@ -34,15 +34,6 @@ stages:
         inputs:
           terraformVersion: '$(TF_VERSION)'
 
-      # Azure Login using service connection 'azure-spn'
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: "azure-spn"
-          scriptType: bash
-          scriptLocation: inlineScript
-          inlineScript: |
-            echo "Logged in to Azure CLI"
-
       # Terraform Init & Validate
       - script: |
           cd $(TF_WORKING_DIR)
@@ -94,15 +85,6 @@ stages:
       - task: TerraformInstaller@1
         inputs:
           terraformVersion: '$(TF_VERSION)'
-
-      # Azure Login
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: "azure-spn"
-          scriptType: bash
-          scriptLocation: inlineScript
-          inlineScript: |
-            echo "Logged in to Azure CLI"
 
       # Terraform Apply using plan
       - script: |
