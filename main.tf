@@ -42,12 +42,12 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# 4. Public IP (corrected to avoid Standard SKU error)
+# 4. Public IP (Static for Standard SKU)
 resource "azurerm_public_ip" "public_ip" {
   name                = "multiCloudPublicIP"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Static"   # Static required for Standard SKU
+  allocation_method   = "Static"
   sku                 = "Standard"
 }
 
@@ -65,7 +65,12 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-# 6. Linux VM with SSH key
+# 6. Azure Linux VM with SSH key from variable
+variable "azure_ssh_pub_key" {
+  description = "Public SSH key for Azure VM"
+  type        = string
+}
+
 resource "azurerm_linux_virtual_machine" "azure_vm" {
   name                = "multiCloudAzureVM"
   resource_group_name = azurerm_resource_group.rg.name
@@ -75,12 +80,11 @@ resource "azurerm_linux_virtual_machine" "azure_vm" {
 
   network_interface_ids = [azurerm_network_interface.nic.id]
 
-  # Use SSH key authentication
   disable_password_authentication = true
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("~/.ssh/multicloud_azure.pub")
+    public_key = var.azure_ssh_pub_key
   }
 
   os_disk {

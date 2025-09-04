@@ -18,12 +18,12 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     variables:
-      - group: aws-credentials   # AWS keys stored in Azure DevOps Variable Group
+      - group: aws-credentials        # AWS keys
+      - group: azure-ssh-credentials  # New variable group with AZURE_SSH_PUB_KEY
     steps:
-      # Checkout repo
       - checkout: self
 
-      # Fix permissions for Terraform AWS provider
+      # Fix AWS provider permissions
       - script: |
           cd $(TF_WORKING_DIR)
           chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
@@ -56,13 +56,13 @@ stages:
       # Terraform Plan
       - script: |
           cd $(TF_WORKING_DIR)
-          terraform plan -var-file="terraform.tfvars" -out=tfplan
+          terraform plan -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" -out=tfplan
         displayName: "Terraform Plan"
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
           AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
 
-      # Publish Terraform code + plan as artifact
+      # Publish Terraform artifact
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(TF_WORKING_DIR)'
@@ -78,13 +78,13 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     variables:
-      - group: aws-credentials   # AWS keys for deploy stage
+      - group: aws-credentials
+      - group: azure-ssh-credentials
     steps:
-      # Download artifact from Build stage
       - download: current
         artifact: terraform-iac
 
-      # Fix permissions for Terraform AWS provider
+      # Fix AWS provider permissions
       - script: |
           cd $(Pipeline.Workspace)/terraform-iac
           chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
@@ -95,7 +95,7 @@ stages:
         inputs:
           terraformVersion: '$(TF_VERSION)'
 
-      # Azure Login using service connection 'azure-spn'
+      # Azure Login
       - task: AzureCLI@2
         inputs:
           azureSubscription: "azure-spn"
@@ -104,11 +104,11 @@ stages:
           inlineScript: |
             echo "Logged in to Azure CLI"
 
-      # Terraform Apply using saved plan
+      # Terraform Apply using plan
       - script: |
           cd $(Pipeline.Workspace)/terraform-iac
           terraform init
-          terraform apply -auto-approve tfplan
+          terraform apply -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" -auto-approve tfplan
         displayName: "Terraform Apply"
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
@@ -120,7 +120,7 @@ stages:
           terraform output -json > terraform-outputs.json
         displayName: "Export Terraform Outputs"
 
-      # Publish outputs as artifact
+      # Publish outputs
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(Pipeline.Workspace)/terraform-iac/terraform-outputs.json'
