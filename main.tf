@@ -87,3 +87,4 @@ resource "azurerm_linux_virtual_machine" "azure_vm" {
     version   = "latest"
   }
 }
+
