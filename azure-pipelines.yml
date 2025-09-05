@@ -43,8 +43,7 @@ stages:
             terraform init
 
             # Fix permissions for all provider binaries
-            chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm* || true
-            chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
+            find .terraform/providers/ -type f -name "terraform-provider-*" -exec chmod +x {} \;
 
             # Validate Terraform
             terraform validate
@@ -98,8 +97,7 @@ stages:
             terraform init
 
             # Fix provider binary permissions
-            chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm* || true
-            chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
+            find .terraform/providers/ -type f -name "terraform-provider-*" -exec chmod +x {} \;
 
             # Apply the saved plan
             terraform apply -auto-approve tfplan
