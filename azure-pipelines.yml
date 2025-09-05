@@ -28,6 +28,7 @@ stages:
       # Fix AWS provider permissions
       - script: |
           cd $(TF_WORKING_DIR)
+          chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm*
           chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
         displayName: "Fix AWS provider permissions"
 
@@ -79,6 +80,7 @@ stages:
       # Fix AWS provider permissions
       - script: |
           cd $(Pipeline.Workspace)/terraform-iac
+          chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm*
           chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
         displayName: "Fix AWS provider permissions"
 
@@ -97,7 +99,6 @@ stages:
             cd $(Pipeline.Workspace)/terraform-iac
             terraform init
             terraform apply -auto-approve tfplan
-            displayName: "Terraform Apply"
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
           AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
