@@ -20,6 +20,7 @@ stages:
     variables:
       - group: aws-credentials        # AWS keys
       - group: azure-ssh-credentials  # AZURE_SSH_PUB_KEY
+      - group: azure-credentials
     steps:
       - checkout: self
         clean: true
@@ -47,6 +48,7 @@ stages:
             terraform validate
             terraform plan \
               -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" \
+              -var "azure_subscription_id=$(AZURE_SUBSCRIPTION_ID)" \
               -out=tfplan
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
@@ -96,6 +98,7 @@ stages:
             terraform init
             terraform apply \
               -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" \
+              -var "azure_subscription_id=$(AZURE_SUBSCRIPTION_ID)" \
               -auto-approve tfplan
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
