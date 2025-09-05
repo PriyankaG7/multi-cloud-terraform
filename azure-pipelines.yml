@@ -28,7 +28,7 @@ stages:
       # Fix AWS provider permissions
       - script: |
           cd $(TF_WORKING_DIR)
-          chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm*
+          chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm* || true
           chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
         displayName: "Fix AWS provider permissions"
 
@@ -80,7 +80,7 @@ stages:
       # Fix AWS provider permissions
       - script: |
           cd $(Pipeline.Workspace)/terraform-iac
-          chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm*
+          chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm* || true
           chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
         displayName: "Fix AWS provider permissions"
 
