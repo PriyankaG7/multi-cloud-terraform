@@ -1,5 +1,14 @@
+# ---------- Variables ----------
+variable "aws_region" {
+  default = "us-east-2"
+}
+
+variable "azure_ssh_pub_key" {
+  description = "Public SSH key for Azure VM"
+  type        = string
+}
+
 # ---------- AWS EC2 ----------
-# Use a data source to dynamically fetch the latest Amazon Linux 2 AMI in us-east-2
 data "aws_ami" "amazon_linux" {
   most_recent = true
   owners      = ["amazon"]
@@ -20,13 +29,11 @@ resource "aws_instance" "aws_vm" {
 }
 
 # ---------- Azure Resources ----------
-# 1. Resource Group
 resource "azurerm_resource_group" "rg" {
   name     = "multiCloudRG"
   location = "East US"
 }
 
-# 2. Virtual Network
 resource "azurerm_virtual_network" "vnet" {
   name                = "multiCloudVNet"
   address_space       = ["10.0.0.0/16"]
@@ -34,7 +41,6 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# 3. Subnet
 resource "azurerm_subnet" "subnet" {
   name                 = "multiCloudSubnet"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -42,7 +48,6 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# 4. Public IP (Static for Standard SKU)
 resource "azurerm_public_ip" "public_ip" {
   name                = "multiCloudPublicIP"
   location            = azurerm_resource_group.rg.location
@@ -51,7 +56,6 @@ resource "azurerm_public_ip" "public_ip" {
   sku                 = "Standard"
 }
 
-# 5. Network Interface
 resource "azurerm_network_interface" "nic" {
   name                = "multiCloudNIC"
   location            = azurerm_resource_group.rg.location
@@ -63,12 +67,6 @@ resource "azurerm_network_interface" "nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.public_ip.id
   }
-}
-
-# 6. Azure Linux VM with SSH key from variable
-variable "azure_ssh_pub_key" {
-  description = "Public SSH key for Azure VM"
-  type        = string
 }
 
 resource "azurerm_linux_virtual_machine" "azure_vm" {
