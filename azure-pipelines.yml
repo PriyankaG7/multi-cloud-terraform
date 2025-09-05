@@ -20,16 +20,10 @@ stages:
     variables:
       - group: aws-credentials        # AWS keys
       - group: azure-ssh-credentials  # AZURE_SSH_PUB_KEY
-      - group: azure-credentials
+      - group: azure-credentials      # Optional Azure variables if needed
     steps:
       - checkout: self
         clean: true
-
-      # Fix AWS provider permissions
-      - script: |
-          cd $(TF_WORKING_DIR)
-          find .terraform/providers/ -type f -name "terraform-provider-*" -exec chmod +x {} \;
-        displayName: "Fix AWS provider permissions"
 
       # Install Terraform
       - task: TerraformInstaller@1
@@ -44,8 +38,18 @@ stages:
           scriptLocation: 'inlineScript'
           inlineScript: |
             cd $(TF_WORKING_DIR)
+
+            # Initialize Terraform (downloads providers)
             terraform init
+
+            # Fix permissions for all provider binaries
+            chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm* || true
+            chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
+
+            # Validate Terraform
             terraform validate
+
+            # Terraform plan with variables
             terraform plan \
               -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" \
               -var "azure_subscription_id=$(AZURE_SUBSCRIPTION_ID)" \
@@ -76,12 +80,6 @@ stages:
       - download: current
         artifact: terraform-iac
 
-      # Fix AWS provider permissions
-      - script: |
-          cd $(Pipeline.Workspace)/terraform-iac
-          find .terraform/providers/ -type f -name "terraform-provider-*" -exec chmod +x {} \;
-        displayName: "Fix AWS provider permissions"
-
       # Install Terraform
       - task: TerraformInstaller@1
         inputs:
@@ -95,7 +93,15 @@ stages:
           scriptLocation: 'inlineScript'
           inlineScript: |
             cd $(Pipeline.Workspace)/terraform-iac
+
+            # Initialize Terraform (downloads providers)
             terraform init
+
+            # Fix provider binary permissions
+            chmod +x .terraform/providers/registry.terraform.io/hashicorp/azurerm/*/terraform-provider-azurerm* || true
+            chmod +x .terraform/providers/registry.terraform.io/hashicorp/aws/*/linux_amd64/terraform-provider-aws* || true
+
+            # Apply the saved plan
             terraform apply -auto-approve tfplan
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
