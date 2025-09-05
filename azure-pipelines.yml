@@ -18,9 +18,8 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     variables:
-      - group: aws-credentials         # AWS keys
-      - group: azure-ssh-credentials   # AZURE_SSH_PUB_KEY
-      - group: azure-credentials       # AZURE_SUBSCRIPTION_ID + AZURE_TENANT_ID
+      - group: aws-credentials        # AWS keys
+      - group: azure-ssh-credentials  # AZURE_SSH_PUB_KEY
     steps:
       - checkout: self
         clean: true
@@ -36,35 +35,19 @@ stages:
         inputs:
           terraformVersion: '$(TF_VERSION)'
 
-      # Authenticate Azure (OIDC)
+      # Terraform Init, Validate & Plan (AWS + Azure) using Azure OIDC authentication
       - task: AzureCLI@2
         inputs:
           azureSubscription: 'azure-spn'   # must match service connection name
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
           inlineScript: |
-            az account show --allow-no-subscriptions
-            echo "Azure OIDC authenticated"
-
-      # Terraform Init & Validate
-      - script: |
-          cd $(TF_WORKING_DIR)
-          terraform init
-          terraform validate
-        displayName: "Terraform Init & Validate"
-        env:
-          AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
-          AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
-
-      # Terraform Plan
-      - script: |
-          cd $(TF_WORKING_DIR)
-          terraform plan \
-            -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" \
-            -var "azure_subscription_id=$(AZURE_SUBSCRIPTION_ID)" \
-            -var "azure_tenant_id=$(AZURE_TENANT_ID)" \
-            -out=tfplan
-        displayName: "Terraform Plan"
+            cd $(TF_WORKING_DIR)
+            terraform init
+            terraform validate
+            terraform plan \
+              -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" \
+              -out=tfplan
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
           AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
@@ -87,7 +70,6 @@ stages:
     variables:
       - group: aws-credentials
       - group: azure-ssh-credentials
-      - group: azure-credentials
     steps:
       - download: current
         artifact: terraform-iac
@@ -103,25 +85,18 @@ stages:
         inputs:
           terraformVersion: '$(TF_VERSION)'
 
-      # Authenticate Azure (OIDC)
+      # Terraform Apply (AWS + Azure) using Azure OIDC authentication
       - task: AzureCLI@2
         inputs:
           azureSubscription: 'azure-spn'
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
           inlineScript: |
-            echo "Azure OIDC authenticated"
-
-      # Terraform Apply using plan
-      - script: |
-          cd $(Pipeline.Workspace)/terraform-iac
-          terraform init
-          terraform apply \
-            -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" \
-            -var "azure_subscription_id=$(AZURE_SUBSCRIPTION_ID)" \
-            -var "azure_tenant_id=$(AZURE_TENANT_ID)" \
-            -auto-approve tfplan
-        displayName: "Terraform Apply"
+            cd $(Pipeline.Workspace)/terraform-iac
+            terraform init
+            terraform apply \
+              -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" \
+              -auto-approve tfplan
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
           AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
@@ -138,3 +113,4 @@ stages:
           targetPath: '$(Pipeline.Workspace)/terraform-iac/terraform-outputs.json'
           artifact: 'TerraformOutputs'
           publishLocation: 'pipeline'
+
