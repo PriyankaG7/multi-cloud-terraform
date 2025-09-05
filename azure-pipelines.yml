@@ -96,10 +96,8 @@ stages:
           inlineScript: |
             cd $(Pipeline.Workspace)/terraform-iac
             terraform init
-            terraform apply \
-              -var "azure_ssh_pub_key=$(AZURE_SSH_PUB_KEY)" \
-              -var "azure_subscription_id=$(AZURE_SUBSCRIPTION_ID)" \
-              -auto-approve tfplan
+            terraform apply -auto-approve tfplan
+            displayName: "Terraform Apply"
         env:
           AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
           AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
