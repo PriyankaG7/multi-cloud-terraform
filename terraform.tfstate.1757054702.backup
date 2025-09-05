@@ -1,0 +1,573 @@
+{
+  "version": 4,
+  "terraform_version": "1.13.1",
+  "serial": 22,
+  "lineage": "d794b878-101f-d008-b18f-5e7270c5a1ed",
+  "outputs": {
+    "aws_instance_public_ip": {
+      "value": "3.23.115.202",
+      "type": "string"
+    },
+    "azure_vm_public_ip": {
+      "value": "172.191.176.94",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_ami",
+      "name": "amazon_linux",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "architecture": "x86_64",
+            "arn": "arn:aws:ec2:us-east-2::image/ami-096566f39a31a283e",
+            "block_device_mappings": [
+              {
+                "device_name": "/dev/xvda",
+                "ebs": {
+                  "delete_on_termination": "true",
+                  "encrypted": "false",
+                  "iops": "0",
+                  "snapshot_id": "snap-0a0ce6bb6e9fc6980",
+                  "throughput": "0",
+                  "volume_initialization_rate": "0",
+                  "volume_size": "8",
+                  "volume_type": "gp2"
+                },
+                "no_device": "",
+                "virtual_name": ""
+              }
+            ],
+            "boot_mode": "",
+            "creation_date": "2025-08-16T04:54:02.000Z",
+            "deprecation_time": "2025-11-14T04:54:00.000Z",
+            "description": "Amazon Linux 2 AMI 2.0.20250818.2 x86_64 HVM gp2",
+            "ena_support": true,
+            "executable_users": null,
+            "filter": [
+              {
+                "name": "name",
+                "values": [
+                  "amzn2-ami-hvm-*-x86_64-gp2"
+                ]
+              }
+            ],
+            "hypervisor": "xen",
+            "id": "ami-096566f39a31a283e",
+            "image_id": "ami-096566f39a31a283e",
+            "image_location": "amazon/amzn2-ami-hvm-2.0.20250818.2-x86_64-gp2",
+            "image_owner_alias": "amazon",
+            "image_type": "machine",
+            "imds_support": "",
+            "include_deprecated": false,
+            "kernel_id": "",
+            "last_launched_time": "",
+            "most_recent": true,
+            "name": "amzn2-ami-hvm-2.0.20250818.2-x86_64-gp2",
+            "name_regex": null,
+            "owner_id": "137112412989",
+            "owners": [
+              "amazon"
+            ],
+            "platform": "",
+            "platform_details": "Linux/UNIX",
+            "product_codes": [],
+            "public": true,
+            "ramdisk_id": "",
+            "root_device_name": "/dev/xvda",
+            "root_device_type": "ebs",
+            "root_snapshot_id": "snap-0a0ce6bb6e9fc6980",
+            "sriov_net_support": "simple",
+            "state": "available",
+            "state_reason": {
+              "code": "UNSET",
+              "message": "UNSET"
+            },
+            "tags": {},
+            "timeouts": null,
+            "tpm_support": "",
+            "uefi_data": null,
+            "usage_operation": "RunInstances",
+            "virtualization_type": "hvm"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "aws_vm",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "ami": "ami-096566f39a31a283e",
+            "arn": "arn:aws:ec2:us-east-2:941914179834:instance/i-09c0106142279ab85",
+            "associate_public_ip_address": true,
+            "availability_zone": "us-east-2b",
+            "capacity_reservation_specification": [
+              {
+                "capacity_reservation_preference": "open",
+                "capacity_reservation_target": []
+              }
+            ],
+            "cpu_core_count": 1,
+            "cpu_options": [
+              {
+                "amd_sev_snp": "",
+                "core_count": 1,
+                "threads_per_core": 1
+              }
+            ],
+            "cpu_threads_per_core": 1,
+            "credit_specification": [
+              {
+                "cpu_credits": "standard"
+              }
+            ],
+            "disable_api_stop": false,
+            "disable_api_termination": false,
+            "ebs_block_device": [],
+            "ebs_optimized": false,
+            "enable_primary_ipv6": null,
+            "enclave_options": [
+              {
+                "enabled": false
+              }
+            ],
+            "ephemeral_block_device": [],
+            "get_password_data": false,
+            "hibernation": false,
+            "host_id": "",
+            "host_resource_group_arn": null,
+            "iam_instance_profile": "",
+            "id": "i-09c0106142279ab85",
+            "instance_initiated_shutdown_behavior": "stop",
+            "instance_lifecycle": "",
+            "instance_market_options": [],
+            "instance_state": "running",
+            "instance_type": "t2.micro",
+            "ipv6_address_count": 0,
+            "ipv6_addresses": [],
+            "key_name": "",
+            "launch_template": [],
+            "maintenance_options": [
+              {
+                "auto_recovery": "default"
+              }
+            ],
+            "metadata_options": [
+              {
+                "http_endpoint": "enabled",
+                "http_protocol_ipv6": "disabled",
+                "http_put_response_hop_limit": 1,
+                "http_tokens": "optional",
+                "instance_metadata_tags": "disabled"
+              }
+            ],
+            "monitoring": false,
+            "network_interface": [],
+            "outpost_arn": "",
+            "password_data": "",
+            "placement_group": "",
+            "placement_partition_number": 0,
+            "primary_network_interface_id": "eni-01543850dc31b98e4",
+            "private_dns": "ip-172-31-22-35.us-east-2.compute.internal",
+            "private_dns_name_options": [
+              {
+                "enable_resource_name_dns_a_record": false,
+                "enable_resource_name_dns_aaaa_record": false,
+                "hostname_type": "ip-name"
+              }
+            ],
+            "private_ip": "172.31.22.35",
+            "public_dns": "ec2-3-23-115-202.us-east-2.compute.amazonaws.com",
+            "public_ip": "3.23.115.202",
+            "root_block_device": [
+              {
+                "delete_on_termination": true,
+                "device_name": "/dev/xvda",
+                "encrypted": false,
+                "iops": 100,
+                "kms_key_id": "",
+                "tags": {},
+                "tags_all": {},
+                "throughput": 0,
+                "volume_id": "vol-027431a3f37698e86",
+                "volume_size": 8,
+                "volume_type": "gp2"
+              }
+            ],
+            "secondary_private_ips": [],
+            "security_groups": [
+              "default"
+            ],
+            "source_dest_check": true,
+            "spot_instance_request_id": "",
+            "subnet_id": "subnet-0e2f91024a60ce667",
+            "tags": {
+              "Name": "multi-cloud-aws-vm"
+            },
+            "tags_all": {
+              "Name": "multi-cloud-aws-vm"
+            },
+            "tenancy": "default",
+            "timeouts": null,
+            "user_data": null,
+            "user_data_base64": null,
+            "user_data_replace_on_change": false,
+            "volume_tags": null,
+            "vpc_security_group_ids": [
+              "sg-0c2ef3a79b3889569"
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMCwicmVhZCI6OTAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "data.aws_ami.amazon_linux"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_linux_virtual_machine",
+      "name": "azure_vm",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "additional_capabilities": [],
+            "admin_password": null,
+            "admin_ssh_key": [
+              {
+                "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDFE4n66GF9Dh4ATG/WekHvpl1liNlQmtlphgBwEYdrTxPw6is9zBf+h0w9CjHmr/8OpRa1TRiTfpyLrfirGPiIyfCfQLZvA1xBDPExQ4IyanEMm44NYvfd7pkjzhnqbj3H8QHg49ikEWkOFyvpAgPih5TydwWdXMFYbFb19OiK9PUIkYThrAWOoGeai5rEJ4T9DO9H+pTpp9QvdzCWOEMXKm3Ql161FG+UfFEPeMuIbt+YYG803y5/zTpK5Ey0tla/iF67yXIhlqQPDP3SMxHUvhR/wHWbj99VStgjHsKAn0YAdAR00Ybvs6j/IoiQMm2dMFn+42AbM7aieR9OhuprXxCIFm/lnnmvStQyhOZIrJNhiCA5yb/gHpEHbiY2S2/ufEgkev2NiDlXTZ+yhPIHmyxnKnjpQwoV5dgHSSilg65388A7i3OHgHkX608i7pGNdFm8ylxf9FeYjSZ5yABC1S+UnfsBCNb8Or6plfB+p9MGt2/skg8p0NzYpSWKKhfr3X6/1Y5Ec0rNjLJ6lsTL5hoFsBtJm+dyjOLhby7cpgzJa4B5zO4r90F8P3uNfV5EK206Ck9mkq+L6/ZVYmbura/OuycRJCyEMOdQDLWHcrRN7M8W1/375io4J+whrKlqz3Fhp61GWV/a+wmWV5L+Uw1t+wEuV1naMYcTtFtiIQ== priyanka@DESKTOP-KK5GTLO",
+                "username": "azureuser"
+              }
+            ],
+            "admin_username": "azureuser",
+            "allow_extension_operations": true,
+            "availability_set_id": "",
+            "boot_diagnostics": [],
+            "bypass_platform_safety_checks_on_user_schedule_enabled": false,
+            "capacity_reservation_group_id": "",
+            "computer_name": "multiCloudAzureVM",
+            "custom_data": null,
+            "dedicated_host_group_id": "",
+            "dedicated_host_id": "",
+            "disable_password_authentication": true,
+            "disk_controller_type": "",
+            "edge_zone": "",
+            "encryption_at_host_enabled": false,
+            "eviction_policy": "",
+            "extensions_time_budget": "PT1H30M",
+            "gallery_application": [],
+            "id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Compute/virtualMachines/multiCloudAzureVM",
+            "identity": [],
+            "license_type": "",
+            "location": "eastus",
+            "max_bid_price": -1,
+            "name": "multiCloudAzureVM",
+            "network_interface_ids": [
+              "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Network/networkInterfaces/multiCloudNIC"
+            ],
+            "os_disk": [
+              {
+                "caching": "ReadWrite",
+                "diff_disk_settings": [],
+                "disk_encryption_set_id": "",
+                "disk_size_gb": 30,
+                "id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Compute/disks/multiCloudAzureVM_OsDisk_1_04ecb95d4cf94bf3b1354f21e1ea669e",
+                "name": "multiCloudAzureVM_OsDisk_1_04ecb95d4cf94bf3b1354f21e1ea669e",
+                "secure_vm_disk_encryption_set_id": "",
+                "security_encryption_type": "",
+                "storage_account_type": "Standard_LRS",
+                "write_accelerator_enabled": false
+              }
+            ],
+            "os_image_notification": [],
+            "os_managed_disk_id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Compute/disks/multiCloudAzureVM_OsDisk_1_04ecb95d4cf94bf3b1354f21e1ea669e",
+            "patch_assessment_mode": "ImageDefault",
+            "patch_mode": "ImageDefault",
+            "plan": [],
+            "platform_fault_domain": -1,
+            "priority": "Regular",
+            "private_ip_address": "10.0.1.4",
+            "private_ip_addresses": [
+              "10.0.1.4"
+            ],
+            "provision_vm_agent": true,
+            "proximity_placement_group_id": "",
+            "public_ip_address": "172.191.176.94",
+            "public_ip_addresses": [
+              "172.191.176.94"
+            ],
+            "reboot_setting": "",
+            "resource_group_name": "multiCloudRG",
+            "secret": [],
+            "secure_boot_enabled": false,
+            "size": "Standard_B1s",
+            "source_image_id": "",
+            "source_image_reference": [
+              {
+                "offer": "0001-com-ubuntu-server-focal",
+                "publisher": "Canonical",
+                "sku": "20_04-lts",
+                "version": "latest"
+              }
+            ],
+            "tags": null,
+            "termination_notification": null,
+            "timeouts": null,
+            "user_data": "",
+            "virtual_machine_id": "49318039-d5f6-42cd-9c72-d019d25ac711",
+            "virtual_machine_scale_set_id": "",
+            "vm_agent_platform_updates_enabled": false,
+            "vtpm_enabled": false,
+            "zone": ""
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "admin_password"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "custom_data"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNzAwMDAwMDAwMDAwLCJkZWxldGUiOjI3MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoyNzAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_network_interface.nic",
+            "azurerm_public_ip.public_ip",
+            "azurerm_resource_group.rg",
+            "azurerm_subnet.subnet",
+            "azurerm_virtual_network.vnet"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_network_interface",
+      "name": "nic",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "accelerated_networking_enabled": false,
+            "applied_dns_servers": [],
+            "auxiliary_mode": "",
+            "auxiliary_sku": "",
+            "dns_servers": null,
+            "edge_zone": "",
+            "id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Network/networkInterfaces/multiCloudNIC",
+            "internal_dns_name_label": "",
+            "internal_domain_name_suffix": "02x2j51g5hnevck2cp1t3sfuhc.bx.internal.cloudapp.net",
+            "ip_configuration": [
+              {
+                "gateway_load_balancer_frontend_ip_configuration_id": "",
+                "name": "internal",
+                "primary": true,
+                "private_ip_address": "10.0.1.4",
+                "private_ip_address_allocation": "Dynamic",
+                "private_ip_address_version": "IPv4",
+                "public_ip_address_id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Network/publicIPAddresses/multiCloudPublicIP",
+                "subnet_id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Network/virtualNetworks/multiCloudVNet/subnets/multiCloudSubnet"
+              }
+            ],
+            "ip_forwarding_enabled": false,
+            "location": "eastus",
+            "mac_address": "",
+            "name": "multiCloudNIC",
+            "private_ip_address": "10.0.1.4",
+            "private_ip_addresses": [
+              "10.0.1.4"
+            ],
+            "resource_group_name": "multiCloudRG",
+            "tags": null,
+            "timeouts": null,
+            "virtual_machine_id": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "name": "multiCloudNIC",
+            "resource_group_name": "multiCloudRG",
+            "subscription_id": "c8d10878-a32f-4f87-8f26-8871e5c95f99"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_public_ip.public_ip",
+            "azurerm_resource_group.rg",
+            "azurerm_subnet.subnet",
+            "azurerm_virtual_network.vnet"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_public_ip",
+      "name": "public_ip",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "allocation_method": "Static",
+            "ddos_protection_mode": "VirtualNetworkInherited",
+            "ddos_protection_plan_id": null,
+            "domain_name_label": null,
+            "domain_name_label_scope": null,
+            "edge_zone": "",
+            "fqdn": null,
+            "id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Network/publicIPAddresses/multiCloudPublicIP",
+            "idle_timeout_in_minutes": 4,
+            "ip_address": "172.191.176.94",
+            "ip_tags": null,
+            "ip_version": "IPv4",
+            "location": "eastus",
+            "name": "multiCloudPublicIP",
+            "public_ip_prefix_id": null,
+            "resource_group_name": "multiCloudRG",
+            "reverse_fqdn": null,
+            "sku": "Standard",
+            "sku_tier": "Regional",
+            "tags": null,
+            "timeouts": null,
+            "zones": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_resource_group",
+      "name": "rg",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG",
+            "location": "eastus",
+            "managed_by": "",
+            "name": "multiCloudRG",
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_subnet",
+      "name": "subnet",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address_prefixes": [
+              "10.0.1.0/24"
+            ],
+            "default_outbound_access_enabled": true,
+            "delegation": [],
+            "id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Network/virtualNetworks/multiCloudVNet/subnets/multiCloudSubnet",
+            "ip_address_pool": [],
+            "name": "multiCloudSubnet",
+            "private_endpoint_network_policies": "Disabled",
+            "private_link_service_network_policies_enabled": true,
+            "resource_group_name": "multiCloudRG",
+            "service_endpoint_policy_ids": null,
+            "service_endpoints": null,
+            "timeouts": null,
+            "virtual_network_name": "multiCloudVNet"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "name": "multiCloudSubnet",
+            "resource_group_name": "multiCloudRG",
+            "subscription_id": "c8d10878-a32f-4f87-8f26-8871e5c95f99",
+            "virtual_network_name": "multiCloudVNet"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg",
+            "azurerm_virtual_network.vnet"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_virtual_network",
+      "name": "vnet",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address_space": [
+              "10.0.0.0/16"
+            ],
+            "bgp_community": "",
+            "ddos_protection_plan": [],
+            "dns_servers": [],
+            "edge_zone": "",
+            "encryption": [],
+            "flow_timeout_in_minutes": 0,
+            "guid": "ffc42fd7-f966-4ada-895c-13f73ec8b43a",
+            "id": "/subscriptions/c8d10878-a32f-4f87-8f26-8871e5c95f99/resourceGroups/multiCloudRG/providers/Microsoft.Network/virtualNetworks/multiCloudVNet",
+            "ip_address_pool": [],
+            "location": "eastus",
+            "name": "multiCloudVNet",
+            "private_endpoint_vnet_policies": "Disabled",
+            "resource_group_name": "multiCloudRG",
+            "subnet": [],
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "name": "multiCloudVNet",
+            "resource_group_name": "multiCloudRG",
+            "subscription_id": "c8d10878-a32f-4f87-8f26-8871e5c95f99"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
