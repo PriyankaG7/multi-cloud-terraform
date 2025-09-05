@@ -45,6 +45,14 @@ stages:
             # Fix permissions for all provider binaries
             find .terraform/providers/ -type f -name "terraform-provider-*" -exec chmod +x {} \;
 
+            # Import existing Azure Resource Group if it exists
+            if az group show --name multiCloudRG &> /dev/null; then
+              echo "Resource group exists, importing into Terraform state..."
+              terraform import azurerm_resource_group.rg /subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourceGroups/multiCloudRG
+            else
+              echo "Resource group does not exist, Terraform will create it."
+            fi
+
             # Validate Terraform
             terraform validate
 
