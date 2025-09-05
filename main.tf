@@ -24,13 +24,6 @@ resource "azurerm_resource_group" "rg" {
   location = "East US"
 }
 
-resource "azurerm_resource_group" "rg" {
-  # To import existing RG:
-  # terraform import azurerm_resource_group.rg /subscriptions/<subscription_id>/resourceGroups/multiCloudRG
-  name     = "multiCloudRG"
-  location = "East US"
-}
-
 resource "azurerm_virtual_network" "vnet" {
   name                = "multiCloudVNet"
   address_space       = ["10.0.0.0/16"]
