@@ -43,6 +43,7 @@ stages:
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
           inlineScript: |
+            az account show --allow-no-subscriptions
             echo "Azure OIDC authenticated"
 
       # Terraform Init & Validate
