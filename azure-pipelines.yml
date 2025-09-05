@@ -22,6 +22,7 @@ stages:
       - group: azure-ssh-credentials  # New variable group with AZURE_SSH_PUB_KEY
     steps:
       - checkout: self
+        clean: true
 
       # Fix AWS provider permissions
       - script: |
@@ -108,4 +109,3 @@ stages:
           targetPath: '$(Pipeline.Workspace)/terraform-iac/terraform-outputs.json'
           artifact: 'TerraformOutputs'
           publishLocation: 'pipeline'
-          
