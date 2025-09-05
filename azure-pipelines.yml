@@ -45,6 +45,10 @@ stages:
             # Fix permissions for all provider binaries
             find .terraform/providers/ -type f -name "terraform-provider-*" -exec chmod +x {} \;
 
+            if ! terraform state list | grep -q "azurerm_resource_group.rg"; then
+              terraform import azurerm_resource_group.rg /subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourceGroups/multiCloudRG
+            fi
+
             # Validate Terraform
             terraform validate
 

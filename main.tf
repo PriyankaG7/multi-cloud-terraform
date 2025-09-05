@@ -1,13 +1,3 @@
-# ---------- Variables ----------
-variable "aws_region" {
-  default = "us-east-2"
-}
-
-variable "azure_ssh_pub_key" {
-  description = "Public SSH key for Azure VM"
-  type        = string
-}
-
 # ---------- AWS EC2 ----------
 data "aws_ami" "amazon_linux" {
   most_recent = true
@@ -30,6 +20,13 @@ resource "aws_instance" "aws_vm" {
 
 # ---------- Azure Resources ----------
 resource "azurerm_resource_group" "rg" {
+  name     = "multiCloudRG"
+  location = "East US"
+}
+
+resource "azurerm_resource_group" "rg" {
+  # To import existing RG:
+  # terraform import azurerm_resource_group.rg /subscriptions/<subscription_id>/resourceGroups/multiCloudRG
   name     = "multiCloudRG"
   location = "East US"
 }
